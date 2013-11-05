@@ -13,11 +13,13 @@ import org.apache.http.util.EntityUtils;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.net.http.AndroidHttpClient;
 import android.util.Log;
 
 public class HttpAsyncLoader extends AsyncTaskLoader<String> {
 
     private String url = null; // WebAPIのURL
+    private static final String TAG = "DEBUG";
 
     public HttpAsyncLoader(Context context, String url) {
         super(context);
@@ -27,12 +29,15 @@ public class HttpAsyncLoader extends AsyncTaskLoader<String> {
     @Override
     public String loadInBackground() {
 
-        HttpClient httpClient = new DefaultHttpClient();
+        // HttpClient httpClient = new DefaultHttpClient();
+        AndroidHttpClient httpClient = AndroidHttpClient.newInstance("Android UserAgent");
+        httpClient.enableCurlLogging(TAG, Log.VERBOSE); // 何も出てこない
+        DebugLogConfig.enable(); //出てくる
 
         try {
-            String responseBody = httpClient.execute(new HttpGet(this.url), // （1）
+            String responseBody = httpClient.execute(new HttpGet(this.url),
 
-                    // UTF-8でデコードするためhandleResponseをオーバーライドする （2）
+                    // UTF-8でデコードするためhandleResponseをオーバーライドする
                     new ResponseHandler<String>() {
 
                         @Override
@@ -41,7 +46,7 @@ public class HttpAsyncLoader extends AsyncTaskLoader<String> {
                             // レスポンスコードが、
                             // HttpStatus.SC_OK（HTTP 200）の場合のみ、結果を返す
                             if (HttpStatus.SC_OK == response.getStatusLine().getStatusCode()){
-                                return EntityUtils.toString(response.getEntity(), "UTF-8"); // （3）
+                                return EntityUtils.toString(response.getEntity(), "UTF-8");
                             }
                             return null;
                         }
@@ -53,7 +58,7 @@ public class HttpAsyncLoader extends AsyncTaskLoader<String> {
             Log.e(this.getClass().getSimpleName(),e.getMessage());
         }
         finally {
-            // 通信終了時は、接続を閉じる （4）
+            // 通信終了時は、接続を閉じる
             httpClient.getConnectionManager().shutdown();
         }
         return null;
