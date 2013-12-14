@@ -29,8 +29,8 @@ public class HttpAsyncLoader extends AsyncTaskLoader<String> {
 
         // HttpClient httpClient = new DefaultHttpClient();
         AndroidHttpClient httpClient = AndroidHttpClient.newInstance("Android UserAgent");
-        httpClient.enableCurlLogging(TAG, Log.VERBOSE); // 何も出てこない
-        DebugLogConfig.enable(); //出てくる
+        // httpClient.enableCurlLogging(TAG, Log.VERBOSE); // 何も出てこない
+        // DebugLogConfig.enable(); //出てくる
 
         try {
             String responseBody = httpClient.execute(new HttpGet(this.url),

@@ -4,8 +4,8 @@
 	android:versionCode="1"
 	android:versionName="1.0" >
 	<uses-sdk
-		android:minSdkVersion="11"
-		android:targetSdkVersion="17" />
+		android:minSdkVersion="14"
+		android:targetSdkVersion="19" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.VIBRATE"/>
 	<application
@@ -21,5 +21,13 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+        <!-- 端末起動時にバッチを呼ぶレシーバ -->
+        <receiver android:name=".OnBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
+        <!-- IntentSerice -->
+        <service android:name="CheckKabuyosoService"></service>
 	</application>
 </manifest>
