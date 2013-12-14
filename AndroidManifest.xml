@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.example.webapisample"
+	package="jp.lolipop.sanrinsha.KabuyosoNotification"
 	android:versionCode="1"
 	android:versionName="1.0" >
 	<uses-sdk
@@ -14,7 +14,7 @@
 		android:label="@string/app_name"
 		android:theme="@style/AppTheme" >
 		<activity
-			android:name="com.example.webapisample.MainActivity"
+			android:name="jp.lolipop.sanrinsha.KabuyosoNotification.KabuyosoNotificationActivity"
 			android:label="@string/app_name" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,7 @@
 			</intent-filter>
 		</activity>
         <!-- 端末起動時にバッチを呼ぶレシーバ -->
-        <receiver android:name=".OnBootReceiver">
+        <receiver android:name="jp.lolipop.sanrinsha.KabuyosoNotification.OnBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>

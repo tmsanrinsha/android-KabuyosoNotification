@@ -1,4 +1,6 @@
-package com.example.webapisample;
+package jp.lolipop.sanrinsha.KabuyosoNotification;
+
+import jp.lolipop.sanrinsha.KabuyosoNotification.R;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,7 +12,7 @@ import android.widget.Button;
 /**
  * @see <a href="http://codezine.jp/article/detail/7276">Web APIの基本的な使い方 （1/3）：CodeZine</a>
  */
-public class MainActivity extends Activity implements View.OnClickListener {
+public class KabuyosoNotificationActivity extends Activity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

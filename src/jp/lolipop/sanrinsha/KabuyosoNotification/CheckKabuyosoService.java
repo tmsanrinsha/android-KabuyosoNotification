@@ -1,4 +1,4 @@
-package com.example.webapisample;
+package jp.lolipop.sanrinsha.KabuyosoNotification;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -18,6 +18,8 @@ import org.apache.http.util.EntityUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import jp.lolipop.sanrinsha.KabuyosoNotification.R;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
@@ -130,7 +132,7 @@ public class CheckKabuyosoService extends IntentService {
      * @see <a href="http://dev.classmethod.jp/smartphone/android/android-tips-23-android4-1-notification-style/">Android Tips #23 Android4.1 で追加された Notification のスタイルを使いこなす ｜ Developers.IO</a>
      */
     private void sendNotification() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), KabuyosoNotificationActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(
                 getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 

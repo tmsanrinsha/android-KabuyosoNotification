@@ -1,4 +1,4 @@
-package com.example.webapisample;
+package jp.lolipop.sanrinsha.KabuyosoNotification;
 
 import android.content.Context;
 import android.util.Log;
