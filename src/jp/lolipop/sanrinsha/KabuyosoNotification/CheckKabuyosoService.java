@@ -19,15 +19,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import jp.lolipop.sanrinsha.KabuyosoNotification.R;
-
-import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -56,7 +52,10 @@ public class CheckKabuyosoService extends IntentService {
 
         // Do stuff that you want to happen asynchronously here
 
-        // ---- RSSの取得 ----
+        /**
+         * RSSの取得
+         * @see <a href="http://codezine.jp/article/detail/7276">Web APIの基本的な使い方 （1/3）：CodeZine</a>
+         */
         // 株価予想のRSS
         String url = "http://info.finance.yahoo.co.jp/kabuyoso/rss/";
         AndroidHttpClient httpClient = AndroidHttpClient.newInstance("Android UserAgent");
@@ -124,7 +123,7 @@ public class CheckKabuyosoService extends IntentService {
             Log.e(this.getClass().getSimpleName(), e.getMessage());
         }
 
-        scheduleNextTime();
+        CheckKabuyosoAlarm.setSchedule(getBaseContext());
     }
 
     /**
@@ -163,62 +162,5 @@ public class CheckKabuyosoService extends IntentService {
         // Notificationを作成して通知
         manager.notify(0, bigTextStyle.build());
 
-    }
-
-    /**
-     * サービスの次回の起動を予約
-     */
-    private void scheduleNextTime() {
-
-        long now = System.currentTimeMillis();
-
-        // アラームをセット
-        PendingIntent alarmSender = PendingIntent.getService(
-            this,
-            0,
-            new Intent(this, this.getClass()),
-            0
-        );
-        AlarmManager am = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-        am.set(
-            AlarmManager.RTC,
-            // now + getIntervalMS(),
-            now + 10 * 1000,
-            alarmSender
-        );
-        // 次回登録が完了
-
-    }
-
-    /**
-     * もし起動していたら，常駐を解除する
-     */
-    public static void stopResidentIfActive(Context context) {
-        if( checkKabuyosoService != null )
-        {
-            checkKabuyosoService.stopResident(context);
-        }
-    }
-
-    /**
-     * サービスの定期実行を解除し，サービスを停止
-     */
-    public void stopResident(Context context) {
-        // サービス名を指定
-        // Intent intent = new Intent(context, this.getClass());
-
-        // アラームを解除
-        PendingIntent pendingIntent = PendingIntent.getService(
-            this,
-            0, // ここを-1にすると解除に成功しない
-            new Intent(this, this.getClass()),
-            PendingIntent.FLAG_UPDATE_CURRENT
-        );
-        AlarmManager alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(pendingIntent);
-        // @see http://creadorgranoeste.blogspot.com/2011/06/alarmmanager.html
-
-        // サービス自体を停止
-        stopSelf();
     }
 }
