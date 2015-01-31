@@ -15,6 +15,7 @@ public class KabuyosoNotificationActivity extends Activity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         Button btn = (Button) findViewById(R.id.StartButton);
         btn.setOnClickListener(this);//リスナの登録
 
